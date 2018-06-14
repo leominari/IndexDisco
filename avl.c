@@ -1,17 +1,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+typedef struct lista{
+  unsigned long chave;
+  int ind;
+  struct lista * prox;
+}rep;
+
 typedef struct tAVL{
-  int chave;
+  unsigned long naochave;
+  rep* rep_chave;
   struct tAVL * dir;
   struct tAVL * esq;
   int fb;
 }avl;
 
-avl * criaNoAVL(int chave){
+avl * criaNoAVL(int chave, unsigned long naochave){
   avl *prim; //cria um axiliar
   prim = malloc(sizeof(avl)); //aloca dinamicamente
-  prim->chave = chave; //armazena o chave em seu campo
+  prim->rep_chave = NULL;
   prim->dir = NULL; //evita erros futuros colocando NULL
   prim->esq = NULL; //evita erros futuros colocando NULL
   prim->fb = 0; //todo novo nó tem fb = 0
@@ -21,7 +28,7 @@ avl * criaNoAVL(int chave){
 int contaAVL(avl *prim){
   if(prim != NULL){ //verifica se existe a arvore
     contaAVL(prim->dir); //soma 1 para cada nó recursivamente
-    printf("CHAVE:%d FB:%d\n", prim->chave, prim->fb);
+    printf("CHAVE:%d FB:%d\n", prim->naochave, prim->fb);
     contaAVL(prim->esq);
     return 1;
   }
@@ -115,17 +122,17 @@ int balanceamento(avl **prim){
 }
 
 
-int insereAVL(avl ** prim, int chave){
+int insereAVL(avl ** prim, int chave, unsigned long naochave){
   if((*prim) == NULL){ //verifica se a arvore é vazia para a criação do novo nó
-    *prim = criaNoAVL(chave); //chama a função de criar nó para criar o nó
+    *prim = criaNoAVL(chave, naochave); //chama a função de criar nó para criar o nó
     return 1; //retorna 1 para informar que o nó cresceu.
   }
   int temp = 0; //Variavel auxiliar para ajudar no balanceamento
-  if(chave < (*prim)->chave) //Se chave for menor, rescursivo para a esquerda
-      temp -= insereAVL(&((*prim)->esq), chave); //calculo FB = AD-AE
+  if(naochave < (*prim)->naochave) //Se chave for menor, rescursivo para a esquerda
+      temp -= insereAVL(&((*prim)->esq), chave, naochave); //calculo FB = AD-AE
   else
-    if(chave > (*prim)->chave) //Se a chave for maior, recursivo para a direita
-      temp = insereAVL(&((*prim)->dir), chave); //calculo  FB = AD-AE
+    if(naochave > (*prim)->naochave) //Se a chave for maior, recursivo para a direita
+      temp = insereAVL(&((*prim)->dir), chave, naochave); //calculo  FB = AD-AE
     else
       return 0; //Se for igual, retorna 0
   if(temp){ //Se nada deu errado entra aqui
@@ -139,7 +146,7 @@ int insereAVL(avl ** prim, int chave){
 int subAVL(avl **prim, avl *help){
   int temp = 0; //variavel auxiliar
   if((*prim)->esq == NULL){
-    help->chave = (*prim)->chave;
+    help->naochave = (*prim)->naochave;
     avl **rem = prim;
     (*prim) = (*prim)->dir;
     free((*rem));
@@ -157,10 +164,10 @@ int subAVL(avl **prim, avl *help){
 
 }
 
-int removeAVL(avl **prim, int chave){
+int removeAVL(avl **prim, int chave, unsigned long naochave){
   if((*prim) == NULL) return 0; //verifica a existencia da arvore
   int temp = 0;  //variavel auxiliar
-  if((*prim)->chave == chave){
+  if((*prim)->naochave == naochave){
     if((*prim)->esq && (*prim)->dir)
       temp = subAVL(&((*prim)->dir), (*prim));
     else{
@@ -174,10 +181,10 @@ int removeAVL(avl **prim, int chave){
     }
   }
   else
-    if((*prim)->chave > chave)
-      temp -= removeAVL(&((*prim)->esq), chave);
+    if((*prim)->naochave > naochave)
+      temp -= removeAVL(&((*prim)->esq),chave, naochave);
     else
-      temp = removeAVL(&((*prim)->dir), chave);
+      temp = removeAVL(&((*prim)->dir),chave, naochave);
   if(temp){
     (*prim)->fb -= temp;
     balanceamento(prim);
