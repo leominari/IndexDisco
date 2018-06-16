@@ -1,11 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-
-typedef struct lista{
-  unsigned long chave;
-  int ind;
-  struct lista * prox;
-}rep;
+#include "lista.c"
+#include "avl.h"
 
 typedef struct tAVL{
   unsigned long naochave;
@@ -15,7 +11,7 @@ typedef struct tAVL{
   int fb;
 }avl;
 
-avl * criaNoAVL(int chave, unsigned long naochave){
+avl * criaNoAVL(unsigned long chave, unsigned long naochave){
   avl *prim; //cria um axiliar
   prim = malloc(sizeof(avl)); //aloca dinamicamente
   prim->rep_chave = NULL;
@@ -24,6 +20,8 @@ avl * criaNoAVL(int chave, unsigned long naochave){
   prim->fb = 0; //todo novo nó tem fb = 0
   return prim;
 }
+
+
 
 int contaAVL(avl *prim){
   if(prim != NULL){ //verifica se existe a arvore
@@ -121,15 +119,20 @@ int balanceamento(avl **prim){
   return 0;
 }
 
+void criaNoLista(unsigned long chave, int i){
 
-int insereAVL(avl ** prim, int chave, unsigned long naochave){
+}
+
+int insereAVL(avl ** prim, unsigned long chave, unsigned long naochave, int i){
   if((*prim) == NULL){ //verifica se a arvore é vazia para a criação do novo nó
     *prim = criaNoAVL(chave, naochave); //chama a função de criar nó para criar o nó
     return 1; //retorna 1 para informar que o nó cresceu.
   }
   int temp = 0; //Variavel auxiliar para ajudar no balanceamento
+  if(naochave == (*prim->naochave))
+    criaNoLista(chave, i);
   if(naochave < (*prim)->naochave) //Se chave for menor, rescursivo para a esquerda
-      temp -= insereAVL(&((*prim)->esq), chave, naochave); //calculo FB = AD-AE
+    temp -= insereAVL(&((*prim)->esq), chave, naochave); //calculo FB = AD-AE
   else
     if(naochave > (*prim)->naochave) //Se a chave for maior, recursivo para a direita
       temp = insereAVL(&((*prim)->dir), chave, naochave); //calculo  FB = AD-AE
@@ -164,7 +167,7 @@ int subAVL(avl **prim, avl *help){
 
 }
 
-int removeAVL(avl **prim, int chave, unsigned long naochave){
+int removeAVL(avl **prim, unsigned long chave, unsigned long naochave){
   if((*prim) == NULL) return 0; //verifica a existencia da arvore
   int temp = 0;  //variavel auxiliar
   if((*prim)->naochave == naochave){

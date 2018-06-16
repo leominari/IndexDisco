@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "avl.c"
 
 typedef struct registro{
 	unsigned long chave;//Campo chave Valor nao se repete.
