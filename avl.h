@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "lista.c"
 
 typedef struct tAVL{
   unsigned long naochave;
@@ -12,15 +13,13 @@ typedef struct tAVL{
 
 avl * criaNoAVL(unsigned long naochave);
 
-int contaAVL(avl *prim);
+void contaAVL(avl *prim);
 
 void rotacaoEsq(avl ** prim);
 
 void rotacaoDir(avl ** prim);
 
 int balanceamento(avl **prim);
-
-void criaNoLista(avl **prim, unsigned long chave, int i);
 
 int insereAVL(avl ** prim, unsigned long chave, unsigned long naochave, int i);
 

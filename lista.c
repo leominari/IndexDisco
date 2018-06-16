@@ -1,6 +1,5 @@
 #include "lista.h"
 
-
 rep *alocaRep(unsigned long chave, int bloco)
 {
  rep *rep = malloc(sizeof(rep));
@@ -13,11 +12,10 @@ rep *alocaRep(unsigned long chave, int bloco)
 
 void insereRep(rep **prim, unsigned long chave, int bloco)
 {
-  if((*prim) == NULL){
+  if((*prim) == NULL)
     *prim = alocaRep(chave, bloco);
-    return;
-  }
-  return insereRep(&((*prim)->prox), chave, bloco);
+  else
+    insereRep(&((*prim)->prox), chave, bloco);
 }
 
 // void removeInicio(rep **prim)

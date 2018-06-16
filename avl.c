@@ -1,12 +1,9 @@
-#include "lista.c"
 #include "avl.h"
 
-
-
 avl * criaNoAVL(unsigned long naochave){
-  avl *prim; //cria um axiliar
-  prim = malloc(sizeof(avl)); //aloca dinamicamente
+  avl *prim = malloc(sizeof(avl)); //aloca dinamicamente
   prim->rep_chave = NULL;
+  prim->naochave = naochave;
   prim->dir = NULL; //evita erros futuros colocando NULL
   prim->esq = NULL; //evita erros futuros colocando NULL
   prim->fb = 0; //todo novo nó tem fb = 0
@@ -15,15 +12,15 @@ avl * criaNoAVL(unsigned long naochave){
 
 
 
-int contaAVL(avl *prim){
+void contaAVL(avl *prim){
   if(prim != NULL){ //verifica se existe a arvore
     contaAVL(prim->dir); //soma 1 para cada nó recursivamente
-    printf("CHAVE:%d FB:%d\n", prim->naochave, prim->fb);
+    printf("CHAVE:%lu FB:%d\n", prim->naochave, prim->fb);
     contaAVL(prim->esq);
-    return 1;
+    return;
   }
   printf("NULL\n");
-  return 0; //retorna 0 se nao existir a arvore
+  return ; //retorna 0 se nao existir a arvore
 }
 
 
@@ -111,24 +108,21 @@ int balanceamento(avl **prim){
   return 0;
 }
 
-void criaNoLista(avl **prim, unsigned long chave, int i){
-  insereRep(prim, chave, i);
-}
 
 int insereAVL(avl ** prim, unsigned long chave, unsigned long naochave, int i){
   if((*prim) == NULL){ //verifica se a arvore é vazia para a criação do novo nó
     *prim = criaNoAVL(naochave); //chama a função de criar nó para criar o nó
-    criaNoLista(&((*prim)->rep_chave), chave, i);
+    insereRep(&((*prim)->rep_chave), chave, i);
     return 1; //retorna 1 para informar que o nó cresceu.
   }
   int temp = 0; //Variavel auxiliar para ajudar no balanceamento
-  if(naochave == (*prim->naochave))
-    criaNoLista(&((*prim)->rep_chave), chave, i);
+  if(naochave == ((*prim)->naochave))
+    insereRep(&((*prim)->rep_chave), chave, i);
   if(naochave < (*prim)->naochave) //Se chave for menor, rescursivo para a esquerda
-    temp -= insereAVL(&((*prim)->esq), chave, naochave); //calculo FB = AD-AE
+    temp -= insereAVL(&((*prim)->esq), chave, naochave, i); //calculo FB = AD-AE
   else
     if(naochave > (*prim)->naochave) //Se a chave for maior, recursivo para a direita
-      temp = insereAVL(&((*prim)->dir), chave, naochave); //calculo  FB = AD-AE
+      temp = insereAVL(&((*prim)->dir), chave, naochave, i); //calculo  FB = AD-AE
     else
       return 0; //Se for igual, retorna 0
   if(temp){ //Se nada deu errado entra aqui
