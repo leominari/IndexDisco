@@ -1,17 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include "lista.c"
 #include "avl.h"
 
-typedef struct tAVL{
-  unsigned long naochave;
-  rep* rep_chave;
-  struct tAVL * dir;
-  struct tAVL * esq;
-  int fb;
-}avl;
 
-avl * criaNoAVL(unsigned long chave, unsigned long naochave){
+
+avl * criaNoAVL(unsigned long naochave){
   avl *prim; //cria um axiliar
   prim = malloc(sizeof(avl)); //aloca dinamicamente
   prim->rep_chave = NULL;
@@ -119,18 +111,19 @@ int balanceamento(avl **prim){
   return 0;
 }
 
-void criaNoLista(unsigned long chave, int i){
-
+void criaNoLista(avl **prim, unsigned long chave, int i){
+  insereRep(prim, chave, i);
 }
 
 int insereAVL(avl ** prim, unsigned long chave, unsigned long naochave, int i){
   if((*prim) == NULL){ //verifica se a arvore é vazia para a criação do novo nó
-    *prim = criaNoAVL(chave, naochave); //chama a função de criar nó para criar o nó
+    *prim = criaNoAVL(naochave); //chama a função de criar nó para criar o nó
+    criaNoLista(&((*prim)->rep_chave), chave, i);
     return 1; //retorna 1 para informar que o nó cresceu.
   }
   int temp = 0; //Variavel auxiliar para ajudar no balanceamento
   if(naochave == (*prim->naochave))
-    criaNoLista(chave, i);
+    criaNoLista(&((*prim)->rep_chave), chave, i);
   if(naochave < (*prim)->naochave) //Se chave for menor, rescursivo para a esquerda
     temp -= insereAVL(&((*prim)->esq), chave, naochave); //calculo FB = AD-AE
   else

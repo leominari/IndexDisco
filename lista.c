@@ -1,12 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "lista.h"
 
-typedef struct lista{
-  unsigned long chave;
-  int bloco;
-  struct lista * prox;
-}rep;
 
 rep *alocaRep(unsigned long chave, int bloco)
 {
@@ -27,13 +20,13 @@ void insereRep(rep **prim, unsigned long chave, int bloco)
   return insereRep((*prim)->prox, chave, bloco);
 }
 
-void removeInicio(rep **prim)
-{
-  if ((*prim) == NULL) return;
-  rep *aux = (*prim);
-  (*prim)=(*prim)->prox;
-  free(aux);
-}
+// void removeInicio(rep **prim)
+// {
+//   if ((*prim) == NULL) return;
+//   rep *aux = (*prim);
+//   (*prim)=(*prim)->prox;
+//   free(aux);
+// }
 
 void imprimeRep(rep *prim){
   if(prim->prox == NULL) return;
