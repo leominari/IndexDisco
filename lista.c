@@ -17,7 +17,7 @@ void insereRep(rep **prim, unsigned long chave, int bloco)
     *prim = alocaRep(chave, bloco);
     return;
   }
-  return insereRep((*prim)->prox, chave, bloco);
+  return insereRep(&((*prim)->prox), chave, bloco);
 }
 
 // void removeInicio(rep **prim)

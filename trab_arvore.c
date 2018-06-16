@@ -8,6 +8,7 @@ typedef struct registro{
 	unsigned char outros[1008];//outros campos: 1008 bytes (dados)
 }reg;
 
+int x;
 
 int main(){
 	reg registros[4];
