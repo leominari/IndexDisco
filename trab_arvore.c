@@ -12,12 +12,13 @@ int h;
 
 int main(){
 	reg registros[4];
-	int i,x;
-	i=0;
+	int i = 0;
+	int x = 0;
+	// int x =0;
 	avl* arvore_um = NULL;
 	FILE *arquivo;
-	arquivo = fopen("base.bin", "rb");
-	for(x=0;x<3;x++){
+	arquivo = fopen("base.bin", "r+");
+	while(x < 4){
 		fread(registros, sizeof(reg), 4, arquivo);
 		fseek(arquivo, sizeof(reg), SEEK_CUR); //atual
 		h++;
@@ -27,6 +28,7 @@ int main(){
 			i++;
 		}
 		i=0;
+		x++;
 	}
 	contaAVL(arvore_um);
 	// fread(registros, sizeof(reg),4, arquivo);

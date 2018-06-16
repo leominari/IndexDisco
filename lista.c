@@ -18,6 +18,11 @@ void insereRep(rep **prim, unsigned long chave, int bloco)
     insereRep(&((*prim)->prox), chave, bloco);
 }
 
+void imprimeRep(rep *prim){
+  if(prim == NULL) return;
+  printf("%lu|%d", prim->chave, prim->bloco );
+  imprimeRep(prim->prox);
+}
 // void removeInicio(rep **prim)
 // {
 //   if ((*prim) == NULL) return;
@@ -25,10 +30,3 @@ void insereRep(rep **prim, unsigned long chave, int bloco)
 //   (*prim)=(*prim)->prox;
 //   free(aux);
 // }
-
-void imprimeRep(rep *prim){
-  if(prim->prox == NULL) return;
-  printf("%d", prim->chave);
-  printf("|%d\n", prim->bloco);
-  imprimeRep(prim->prox);
-}

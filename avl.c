@@ -16,10 +16,11 @@ void contaAVL(avl *prim){
   if(prim != NULL){ //verifica se existe a arvore
     contaAVL(prim->dir); //soma 1 para cada nó recursivamente
     printf("CHAVE:%lu FB:%d\n", prim->naochave, prim->fb);
+    imprimeRep(prim->rep_chave);
     contaAVL(prim->esq);
     return;
   }
-  printf("NULL\n");
+  printf("\nNULL\n");
   return ; //retorna 0 se nao existir a arvore
 }
 
