@@ -67,6 +67,7 @@ int main(){
 	listaRep(chaves);
 	scanf("%lu",&chave_ler);
 	printf("BUSCOU\n");
+	buscaBloco(chaves, chave_ler);
 	//fseek(registros, sizeof(reg), SEEK_SET);
 	//i = 0;
 	//while(i)
