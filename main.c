@@ -25,10 +25,10 @@ int main(){
 	arquivo = fopen("base.bin", "r+");
 	printf("Qual estrutura deve ser utilizada: \n 0 - Arvore AVL \n 1 - Arvore Red-Black \n");
 	scanf("%d", &est);
-
+	printf("Criando a arvore...\n");
 	if(est == 0){
 
-		while(!feof(arquivo)){
+		while(x < 4){
 			fread(registros, sizeof(reg), 4, arquivo);
 			while(i < 4){
 				insereAVL(&arvore_avl, registros[i].chave, registros[i].naochave, h);
@@ -47,7 +47,6 @@ int main(){
 			fread(registros, sizeof(reg), 4, arquivo);
 			while(i < 4){
 				arvore_red = insert(arvore_red, registros[i].naochave, registros[i].chave, h);
-				printf("%lu,%lu, %d \n", registros[i].chave, registros[i].naochave, h);
 				i++;
 			}
 			h++;
@@ -64,7 +63,7 @@ int main(){
 	else{
 		chaves = search(arvore_red, val);
 	}
-	printf("Qual das Chaves deseja ver?\n", );
+	printf("Qual das Chaves deseja ver?\n");
 	listaRep(chaves);
 	scanf("%lu",&chave_ler);
 	printf("BUSCOU\n");

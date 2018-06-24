@@ -25,6 +25,7 @@ void imprimeRep(rep *prim){
 }
 
 void listaRep(rep* prim){
+  if(prim == NULL) return;
   printf("Chave: %lu\n", prim->chave);
   listaRep(prim->prox);
 }
