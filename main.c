@@ -28,11 +28,12 @@ int main(){
 	printf("Criando a arvore...\n");
 	if(est == 0){
 
-		while(x < 4){
+		while(!feof(arquivo)){
 			fread(registros, sizeof(reg), 4, arquivo);
 			while(i < 4){
+				printf("%lu, %lu\n",registros[i].chave, registros[i].naochave);
 				insereAVL(&arvore_avl, registros[i].chave, registros[i].naochave, h);
-				printf("%lu,%lu, %d \n", registros[i].chave, registros[i].naochave, h);
+				//printf("%lu,%lu, %d \n", registros[i].chave, registros[i].naochave, h);
 				i++;
 			}
 			h++;
@@ -43,35 +44,54 @@ int main(){
 
 	if(est == 1){
 
-		while(x < 4){
+		while(!feof(arquivo)){
 			fread(registros, sizeof(reg), 4, arquivo);
 			while(i < 4){
+				printf("%lu, %lu\n",registros[i].chave, registros[i].naochave);
 				arvore_red = insert(arvore_red, registros[i].naochave, registros[i].chave, h);
 				i++;
 			}
-			print(arvore_red, 0);
+			//print(arvore_red, 0);
 			h++;
 			i=0;
 			x++;
 		}
 	}
-
+	printf("Arvore Carregada!\n\n");
+//18446744073705518210
 	printf("Digite o valor a ser buscado:\n");
 	scanf("%lu", &val);
 	if(est == 0){
 		chaves = searchAVL(arvore_avl, val);
 	}
-	else{
+	if(est == 1){
 		chaves = search(arvore_red, val);
 	}
 	printf("Qual das Chaves deseja ver?\n");
 	listaRep(chaves);
 	scanf("%lu",&chave_ler);
-	printf("BUSCOU\n");
-	buscaBloco(chaves, chave_ler);
-	//fseek(registros, sizeof(reg), SEEK_SET);
-	//i = 0;
-	//while(i)
+	//printf("BUSCOU\n");
+	x = buscaBloco(chaves, chave_ler);
+	fseek(arquivo, sizeof(reg), 0);
+
+	for(i=0; i<=x; i++){
+		fread(registros, sizeof(reg), 4, arquivo);
+	}
+
+	for(i=0; i<4; i++){
+		//printf("%lu\n",registros[i].chave);
+		if(registros[i].chave == chave_ler)
+			x = i;
+	}
+
+	//printf("%lu\n",registros[x].chave);
+	printf("Aqui estão os 1008 outros:\n\n");
+
+	for(i=0; i<1008; i++){
+		printf("%c",registros[x].outros[i]);
+	}
+
+	printf("\n");
 	fclose(arquivo);
 
 }

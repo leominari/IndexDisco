@@ -1,6 +1,6 @@
 #include "redblack.h"
 
-Tree* newNode(Tree *parent, unsigned long x){
+Tree* newNode(Tree *parent, unsigned long x, unsigned long chave,int bloco){
 
     Tree* tree = (Tree*)malloc(sizeof(Tree));
     if (tree == NULL) {
@@ -10,6 +10,8 @@ Tree* newNode(Tree *parent, unsigned long x){
     tree->color = RED;
     tree->naochave = x;
     tree->parent = parent;
+    tree->rep_chave = NULL;
+    insereRep(&(tree->rep_chave), chave, bloco);
     tree->left = tree->right = NULL;
     return tree;
 }
@@ -37,8 +39,9 @@ Tree* updateRoot(Tree *tree){
 
 rep* search(Tree *tree, unsigned long x){
     if(tree == NULL) return NULL;
-    if (x == tree->naochave)
+    if (x == tree->naochave){
       return tree->rep_chave;
+    }
     if (x < tree->naochave)
       search(tree->left, x);
     else
@@ -113,7 +116,7 @@ void treat_inclusion(Tree *tree){
 Tree* insert(Tree *tree, unsigned long x, unsigned long chave, int bloco){
 
     if (tree == NULL) {
-        tree = newNode(NULL, x);
+        tree = newNode(NULL, x, chave, bloco);
         tree->color = BLACK;
         return tree;
     }
@@ -124,8 +127,8 @@ Tree* insert(Tree *tree, unsigned long x, unsigned long chave, int bloco){
             if (tree->left != NULL)
               tree = tree->left;
             else {
-              tree->left = newNode(tree, x);
-              insereRep(&(tree->rep_chave), chave, bloco);
+              tree->left = newNode(tree, x, chave, bloco);
+
               break;
             }
         }else{
@@ -136,8 +139,7 @@ Tree* insert(Tree *tree, unsigned long x, unsigned long chave, int bloco){
             if (tree->right != NULL)
               tree = tree->right;
             else {
-              tree->right = newNode(tree, x);
-              insereRep(&(tree->rep_chave), chave, bloco);
+              tree->right = newNode(tree, x, chave, bloco);
               break;
             }
           }

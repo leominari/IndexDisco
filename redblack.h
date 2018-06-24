@@ -15,7 +15,7 @@ typedef struct Tree{
     struct Tree *left, *right, *parent;
 }Tree;
 
-Tree* newNode(Tree *parent, unsigned long x);
+Tree* newNode(Tree *parent, unsigned long x, unsigned long chave,int bloco);
 Tree *mySibling(Tree *tree);
 Tree* myAvo(Tree *tree);
 Tree* myUncle(Tree *avo, Tree *tree);
