@@ -43,12 +43,13 @@ int main(){
 
 	if(est == 1){
 
-		while(!feof(arquivo)){
+		while(x < 4){
 			fread(registros, sizeof(reg), 4, arquivo);
 			while(i < 4){
 				arvore_red = insert(arvore_red, registros[i].naochave, registros[i].chave, h);
 				i++;
 			}
+			print(arvore_red, 0);
 			h++;
 			i=0;
 			x++;

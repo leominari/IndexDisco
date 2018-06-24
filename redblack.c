@@ -36,16 +36,13 @@ Tree* updateRoot(Tree *tree){
 }
 
 rep* search(Tree *tree, unsigned long x){
-
-    while(tree != NULL){
-        if (x == tree->naochave)
-          return tree->rep_chave;
-        if (x < tree->naochave)
-          tree = tree->left;
-        else
-          tree = tree->right;
-    }
-    return NULL;
+    if(tree == NULL) return NULL;
+    if (x == tree->naochave)
+      return tree->rep_chave;
+    if (x < tree->naochave)
+      search(tree->left, x);
+    else
+      search(tree->right, x);
 }
 
 
@@ -146,7 +143,6 @@ Tree* insert(Tree *tree, unsigned long x, unsigned long chave, int bloco){
           }
         }
     }
-
     if (tree->naochave == x) return head;    //means that the element already inserted and nothing was do
 
     if (tree->left != NULL && tree->left->naochave == x)
