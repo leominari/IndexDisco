@@ -1,15 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "redblack.c"
-#include "avl.c"
-
-
-typedef struct registro{
-	unsigned long chave;//Campo chave Valor nao se repete.
-	unsigned long naochave;//Campo qualquer. Valor pode repetir.
-	unsigned char outros[1008];//outros campos: 1008 bytes (dados)
-}reg;
-
+#include "trabalho.h"
 int h; //Contagem dos blocos
 
 int main(){
@@ -25,13 +14,17 @@ int main(){
 	arquivo = fopen("base.bin", "r+");
 	printf("Qual estrutura deve ser utilizada: \n 0 - Arvore AVL \n 1 - Arvore Red-Black \n");
 	scanf("%d", &est);
+	if(est != 1 && est != 0){
+		printf("Esta estrutura não existe.\n");
+		exit(0);
+	}
 	printf("Criando a arvore...\n");
 	if(est == 0){
 
 		while(!feof(arquivo)){
 			fread(registros, sizeof(reg), 4, arquivo);
 			while(i < 4){
-				printf("%lu, %lu\n",registros[i].chave, registros[i].naochave);
+				//printf("%lu, %lu\n",registros[i].chave, registros[i].naochave);
 				insereAVL(&arvore_avl, registros[i].chave, registros[i].naochave, h);
 				i++;
 			}
@@ -46,7 +39,7 @@ int main(){
 		while(!feof(arquivo)){
 			fread(registros, sizeof(reg), 4, arquivo);
 			while(i < 4){
-				printf("%lu, %lu\n",registros[i].chave, registros[i].naochave);
+				//printf("%lu, %lu\n",registros[i].chave, registros[i].naochave);
 				arvore_red = insert(arvore_red, registros[i].naochave, registros[i].chave, h);
 				i++;
 			}
@@ -60,14 +53,26 @@ int main(){
 	scanf("%lu", &val);
 	if(est == 0){
 		chaves = searchAVL(arvore_avl, val);
+		if(chaves == NULL){
+			printf("Não existe esse valor.\n");
+			exit(0);
+		}
 	}
 	if(est == 1){
 		chaves = search(arvore_red, val);
+		if(chaves == NULL){
+			printf("Não existe esse valor.\n");
+			exit(0);
+		}
 	}
-	printf("Qual das Chaves deseja ver?\n");
 	listaRep(chaves);
+	printf("Qual das Chaves deseja ver?\n");
 	scanf("%lu",&chave_ler);
 	x = buscaBloco(chaves, chave_ler);
+	if(x == -1){
+		printf("Não existe essa chave.\n");
+		exit(0);
+	}
 	fseek(arquivo, sizeof(reg), 0);
 
 	for(i=0; i<=x; i++){
