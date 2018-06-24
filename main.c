@@ -33,7 +33,6 @@ int main(){
 			while(i < 4){
 				printf("%lu, %lu\n",registros[i].chave, registros[i].naochave);
 				insereAVL(&arvore_avl, registros[i].chave, registros[i].naochave, h);
-				//printf("%lu,%lu, %d \n", registros[i].chave, registros[i].naochave, h);
 				i++;
 			}
 			h++;
@@ -51,14 +50,12 @@ int main(){
 				arvore_red = insert(arvore_red, registros[i].naochave, registros[i].chave, h);
 				i++;
 			}
-			//print(arvore_red, 0);
 			h++;
 			i=0;
 			x++;
 		}
 	}
 	printf("Arvore Carregada!\n\n");
-//18446744073705518210
 	printf("Digite o valor a ser buscado:\n");
 	scanf("%lu", &val);
 	if(est == 0){
@@ -70,7 +67,6 @@ int main(){
 	printf("Qual das Chaves deseja ver?\n");
 	listaRep(chaves);
 	scanf("%lu",&chave_ler);
-	//printf("BUSCOU\n");
 	x = buscaBloco(chaves, chave_ler);
 	fseek(arquivo, sizeof(reg), 0);
 
@@ -79,12 +75,10 @@ int main(){
 	}
 
 	for(i=0; i<4; i++){
-		//printf("%lu\n",registros[i].chave);
 		if(registros[i].chave == chave_ler)
 			x = i;
 	}
 
-	//printf("%lu\n",registros[x].chave);
 	printf("Aqui estão os 1008 outros:\n\n");
 
 	for(i=0; i<1008; i++){
