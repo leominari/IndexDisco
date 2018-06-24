@@ -12,3 +12,7 @@ rep *alocaRep(unsigned long chave, int bloco);
 void insereRep(rep **prim, unsigned long chave, int bloco);
 
 void imprimeRep(rep *prim);
+
+void listaRep(rep* prim);
+
+int buscaBloco(rep* prim, unsigned long chave);

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista.c"
 
 typedef struct tAVL{
   unsigned long naochave;
@@ -26,3 +25,5 @@ int insereAVL(avl ** prim, unsigned long chave, unsigned long naochave, int i);
 int subAVL(avl **prim, avl *help);
 
 int removeAVL(avl **prim, unsigned long chave, unsigned long naochave);
+
+rep* searchAVL(avl *tree, unsigned long x);

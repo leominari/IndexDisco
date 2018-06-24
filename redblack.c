@@ -1,6 +1,5 @@
 #include "redblack.h"
 
-
 Tree* newNode(Tree *parent, unsigned long x){
 
     Tree* tree = (Tree*)malloc(sizeof(Tree));
@@ -36,14 +35,16 @@ Tree* updateRoot(Tree *tree){
     return tree;
 }
 
-Tree* search(Tree *tree, unsigned long x){
+rep* search(Tree *tree, unsigned long x){
 
     while(tree != NULL){
-        if (x == tree->naochave) return tree;
-        if (x < tree->naochave) tree = tree->left;
-        else tree = tree->right;
+        if (x == tree->naochave)
+          return tree->rep_chave;
+        if (x < tree->naochave)
+          tree = tree->left;
+        else
+          tree = tree->right;
     }
-
     return NULL;
 }
 
@@ -81,6 +82,7 @@ void treat_inclusion(Tree *tree){
         tree->color = BLACK;
         return;
     }
+
     if (tree->parent->color == BLACK) return;
 
     Tree *avo = myAvo(tree);
@@ -95,18 +97,23 @@ void treat_inclusion(Tree *tree){
     if (tree == tree->parent->right && tree->parent == avo->left){
         rotate_left(tree->parent);
         tree = tree->left;
-    }else if (tree == tree->parent->left && tree->parent == avo->right){
+    }
+
+    else
+      if (tree == tree->parent->left && tree->parent == avo->right){
         rotate_right(tree->parent);
         tree = tree->right;
     }
 
     tree->parent->color = BLACK;
     avo->color = RED;
-    if (tree == tree->parent->left) rotate_right(avo);
-    else rotate_left(avo);
+    if (tree == tree->parent->left)
+      rotate_right(avo);
+    else
+      rotate_left(avo);
 }
 
-Tree* insert(Tree *tree, unsigned long x){
+Tree* insert(Tree *tree, unsigned long x, unsigned long chave, int bloco){
 
     if (tree == NULL) {
         tree = newNode(NULL, x);
@@ -117,24 +124,35 @@ Tree* insert(Tree *tree, unsigned long x){
     Tree *head = tree;
     while(tree->naochave != x){
         if (x < tree->naochave){
-            if (tree->left != NULL) tree = tree->left;
+            if (tree->left != NULL)
+              tree = tree->left;
             else {
-                tree->left = newNode(tree, x);
-                break;
+              tree->left = newNode(tree, x);
+              insereRep(&(tree->rep_chave), chave, bloco);
+              break;
             }
         }else{
-            if (tree->right != NULL) tree = tree->right;
+          if(x == tree->naochave){
+            insereRep(&(tree->rep_chave), chave, bloco);
+          }
+          else{
+            if (tree->right != NULL)
+              tree = tree->right;
             else {
-                tree->right = newNode(tree, x);
-                break;
+              tree->right = newNode(tree, x);
+              insereRep(&(tree->rep_chave), chave, bloco);
+              break;
             }
+          }
         }
     }
 
     if (tree->naochave == x) return head;    //means that the element already inserted and nothing was do
 
-    if (tree->left != NULL && tree->left->naochave == x) treat_inclusion(tree->left);
-    else treat_inclusion(tree->right);
+    if (tree->left != NULL && tree->left->naochave == x)
+      treat_inclusion(tree->left);
+    else
+      treat_inclusion(tree->right);
 
     return updateRoot(head);
 }
@@ -145,7 +163,11 @@ void print(Tree *tree, int height){
     if (tree == NULL) return;
 
     print(tree->left, height+1);
-    printf("%lu cor: %d Altura: %d\n", tree->naochave, tree->color, height);
+    printf("Chave: %lu - Cor: ", tree->naochave);
+    if(tree->color == RED)
+      printf("VERMELHO - Altura: %d\n", height);
+    else
+      printf("PRETO - Altura: %d\n", height);
     print(tree->right, height+1);
 }
 

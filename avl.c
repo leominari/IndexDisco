@@ -10,6 +10,18 @@ avl * criaNoAVL(unsigned long naochave){
   return prim;
 }
 
+rep* searchAVL(avl *tree, unsigned long x){
+
+    while(tree != NULL){
+        if (x == tree->naochave)
+          return tree->rep_chave;
+        if (x < tree->naochave)
+          tree = tree->esq;
+        else
+          tree = tree->dir;
+    }
+    return NULL;
+}
 
 
 void contaAVL(avl *prim){
